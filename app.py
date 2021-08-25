@@ -6,8 +6,8 @@ import pandas as pd
 import altair as alt
 from vega_datasets import data
 
-
-# section2
+import datetime
+# section2 ###########################################
 
 df = pd.DataFrame({
     'xval': ["1", "1", "2-3", "2-3", "4-5", "4-5", "6-10", "6-10", "11+", "11+"],
@@ -29,7 +29,10 @@ c = alt.Chart(df).mark_bar().encode(
 )
 
 st.altair_chart(c)
-##############################################################
-
-############################################################
+############################################################## Datetime #
+d = st.date_input(
+    "When's your birthday",
+    datetime.date(2019, 7, 6))
+st.write('Your birthday is:', d)
+# 3
 st.button("Re-run")
