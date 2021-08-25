@@ -7,13 +7,27 @@ import altair as alt
 from vega_datasets import data
 
 import datetime
+
+############################################################## Datetime #
+d = st.date_input(
+    "When's your birthday",
+    datetime.date(2019, 7, 6))
+d_2 = d.strftime("%m/%d/%Y, %H:%M:%S")
+st.write('Your birthday is:', d_2)
+####################################################
+
 # section2 ###########################################
+
+temp_date = (datetime.date(2019, 7, 6)).strftime("%m/%d/%Y, %H:%M:%S")
 
 df = pd.DataFrame({
     'xval': ["1", "1", "2-3", "2-3", "4-5", "4-5", "6-10", "6-10", "11+", "11+"],
     'group': [1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
-    "value": [5000, 8000, 500, 3000, 100, 1000, 60, 800, 30, 300]
+    "value": [5000, 8000, 500, 3000, 100, 1000, 60, 800, 30, 300],
+    "date": [temp_date]*10
 })
+
+print(temp_date*10)
 
 c = alt.Chart(df).mark_bar().encode(
     x=alt.X('group:O', axis=alt.Axis(title=None, labels=False, ticks=False)),
@@ -26,13 +40,11 @@ c = alt.Chart(df).mark_bar().encode(
     )
 ).configure_view(
     stroke='transparent'
+).transform_filter(
+    alt.FieldEqualPredicate(field='date', equal=d_2)
 )
 
 st.altair_chart(c)
-############################################################## Datetime #
-d = st.date_input(
-    "When's your birthday",
-    datetime.date(2019, 7, 6))
-st.write('Your birthday is:', d)
+##############################
 # 3
 st.button("Re-run")
